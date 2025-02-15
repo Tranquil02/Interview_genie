@@ -4,6 +4,7 @@ import { AlertCircle, Brain } from "lucide-react";
 import confetti from "canvas-confetti";
 import supabase from "../utils/client";
 import Swal from "sweetalert2";
+import { i } from "framer-motion/client";
 
 const fireCelebration = () => {
   const count = 200;
@@ -67,6 +68,26 @@ const Feedback = () => {
           .eq("id", questionId)
           .single(); // Expect a single row
 
+        console.log(data.feedback);
+        const averageScore =
+          data.feedback.length > 0
+            ? Math.floor(
+                data.feedback.reduce(
+                  (sum: number, item: any) =>
+                    sum + parseInt(item.rating.replace("%", ""), 10),
+                  0
+                ) / data.feedback.length
+              )
+            : 0;
+
+        const { data: newData, error: UpdateError } = await supabase
+          .from("mock_interview")
+          .update({ overall_score: averageScore })
+          .eq("id", questionId);
+        console.log(averageScore);
+
+        console.log(newData);
+        if (UpdateError) throw UpdateError;
         if (error) throw error;
         setIsGenerating(false);
 
@@ -78,7 +99,7 @@ const Feedback = () => {
             exampleRef.current[index] =
               data.feedback?.[index]?.example || "No example available";
           });
-          scoreRef.current = data.overall_score;
+          scoreRef.current = averageScore;
           setTimeTaken(data.duration);
         } else {
           generateInitialFeedback();
