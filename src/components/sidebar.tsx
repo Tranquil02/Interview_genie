@@ -40,7 +40,7 @@ export function Sidebar() {
   return (
     <div className="w-16 md:w-64 h-screen bg-white dark:bg-gray-900 fixed left-0 top-0 border-r border-gray-200 dark:border-gray-800 z-40 flex flex-col justify-between">
       <div>
-        <div className="flex items-center p-6 gap-2">
+        <div className="flex items-center p-5 gap-2">
           <a href="/" className="hidden sm:block">
             <span className="text-lg font-bold truncate dark:text-white">
               InterviewGenie
