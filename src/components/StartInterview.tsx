@@ -85,7 +85,7 @@ export function InterviewStart(type: any) {
         icon: "error",
         title: "Oops...",
         text: "Something went wrong!",
-        footer:(error as Error).message
+        footer: (error as Error).message,
       });
     }
     setLoading(false);
@@ -205,18 +205,31 @@ export function InterviewStart(type: any) {
               </div>
             </div>
           </div>
-
+            
+            {/* Start Interview Button */}
           <button
-            className="w-full mt-6 bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 transition-colors font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
-            onClick={handleStartInterview}
+            type="submit"
             disabled={
               !interviewDetails.company ||
               !interviewDetails.role ||
               !interviewDetails.acceptedTerms ||
               loading
             }
+            onClick={handleStartInterview}
+            className="w-full bg-indigo-600 dark:bg-indigo-500 text-white py-2 px-4 rounded-lg
+                     hover:bg-indigo-700 dark:hover:bg-indigo-600 
+                     transform hover:scale-[1.02] active:scale-95
+                     transition-all duration-200 
+                     flex items-center justify-center space-x-2 text-sm font-medium
+                     disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Continue to Interview
+            {loading ? (
+              <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent" />
+            ) : (
+              <>
+                <span>Continue to Interview</span>
+              </>
+            )}
           </button>
         </div>
       </div>
