@@ -7,17 +7,22 @@ declare global {
   }
 }
 import { useLocation, useNavigate } from "react-router-dom";
-import { Mic, MicOff, Camera, CameraOff, Brain } from "lucide-react";
+import {
+  Mic,
+  MicOff,
+  Camera,
+  CameraOff,
+  Brain,
+  AlertCircle,
+} from "lucide-react";
 import Swal from "sweetalert2";
-
 
 type SpeechRecognition =
   | typeof window.SpeechRecognition
   | typeof window.webkitSpeechRecognition;
 
-
 const Interview = () => {
-  const BackendUrl=import.meta.env.VITE_BACKEND_URL
+  const BackendUrl = import.meta.env.VITE_BACKEND_URL;
   const location = useLocation();
   const questions = location.state?.questions || [];
   const questionId = location.state?.id || "";
@@ -123,18 +128,15 @@ const Interview = () => {
       tracks?.getTracks().forEach((track) => track.stop());
     };
   }, []);
-// console.log(started_at);
+  // console.log(started_at);
   const fetchResponse = async (responses: any, started_at: any) => {
     setIsGenerating(true);
     try {
-      await fetch(
-        `${BackendUrl}/api/interview_review/${questionId}`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ questions, responses, started_at }),
-        }
-      );
+      await fetch(`${BackendUrl}/api/interview_review/${questionId}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ questions, responses, started_at }),
+      });
       setIsGenerating(false);
     } catch (error) {
       Swal.fire({
@@ -147,16 +149,18 @@ const Interview = () => {
   };
 
   const toggleListening = () => {
-    if (isListening) {
-      recognitionRef.current?.stop();
-      setIsListening(false);
-      if (silenceTimeoutRef.current) {
-        clearTimeout(silenceTimeoutRef.current);
+    if (isStart) {
+      if (isListening) {
+        recognitionRef.current?.stop();
+        setIsListening(false);
+        if (silenceTimeoutRef.current) {
+          clearTimeout(silenceTimeoutRef.current);
+        }
+      } else {
+        recognitionRef.current?.start();
+        setIsListening(true);
+        setCurrentResponse("");
       }
-    } else {
-      recognitionRef.current?.start();
-      setIsListening(true);
-      setCurrentResponse("");
     }
   };
 
@@ -206,7 +210,14 @@ const Interview = () => {
             Question {currentQuestionIndex + 1} of {questions.length}
           </p>
         </div>
-
+        <div className="flex items-start bg-yellow-100 border-l-4 border-yellow-500 shadow-lg p-4 rounded-lg mb-2">
+          <AlertCircle className="text-yellow-600 w-6 h-6 mr-3 mt-1" />
+          <div>
+            <p className="text-yellow-800 text-base font-semibold">
+              <b>Tip:</b> Start recording if you want to record your audio and don't stop recording. Wait for 5 seconds to move to the next question.
+            </p>
+          </div>
+        </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
           {/* Webcam Section */}
           <div className="bg-white rounded-2xl shadow-xl p-6">
