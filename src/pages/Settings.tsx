@@ -109,6 +109,11 @@ function Settings() {
         // .single(); // Update profile data based on auth ID
 
         if (error) {
+          Swal.fire({
+            title: "Something Went Wrong!",
+            text: error.message,
+            icon: "error"
+          });
           console.error("Error saving profile:", error.message);
         } else {
           Swal.fire({
