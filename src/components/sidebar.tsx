@@ -41,15 +41,17 @@ export function Sidebar() {
     <div className="w-16 md:w-64 h-screen bg-white dark:bg-gray-900 fixed left-0 top-0 border-r border-gray-200 dark:border-gray-800 z-40 flex flex-col justify-between">
       <div>
         <div className="flex items-center p-6 gap-2">
-          <a href="/">
-            <span className="text-lg font-bold truncate hidden sm:block dark:text-white">
+          <a href="/" className="hidden sm:block">
+            <span className="text-lg font-bold truncate dark:text-white">
               InterviewGenie
             </span>
           </a>
           <a href="/">
-            {/* <div className="flex items-center justify-center w-8 h-8 md:w-12 md:h-12 rounded-lg bg-gradient-to-br from-blue-500 to-purple-500 text-white flex-shrink-0"> */}
-            {/* Insert your logo here */}
-            <img src={LogoIcon} alt="logo" className="h-12 w-12" />
+            <img
+              src={LogoIcon}
+              alt="logo"
+              className="h-12 w-12 sm:h-24 sm:w-24 md:h-16 md:w-16 lg:h-16 lg:w-16 object-contain"
+            />
           </a>
         </div>
 
