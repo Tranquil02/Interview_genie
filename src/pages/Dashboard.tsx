@@ -188,11 +188,12 @@ export default function Dashboard() {
           return;
         }
 
+        const data_length = data.length;
         // Set state with only the latest 4 interviews
-        setPrevInterview(data.slice(0, 4));
+        setPrevInterview(data.slice(0,data_length/2 ));
 
         //Setting another interview
-        SetanotherInterviews(data.slice(4, 8));
+        SetanotherInterviews(data.slice((data_length/2), data_length));
 
         // Calculate total practice hours
         const totalMinutes = data.reduce(
